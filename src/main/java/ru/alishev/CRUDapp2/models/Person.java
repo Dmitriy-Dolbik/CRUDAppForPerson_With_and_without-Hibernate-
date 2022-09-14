@@ -1,33 +1,40 @@
 package ru.alishev.CRUDapp2.models;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
-@Table(name="Person")
+@Table(name="person")
 public class Person {
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotEmpty(message = "Name should be not empty")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
 
     @Min(value = 0, message = "Age should be greater than 0")
-    @Column(name="age")
+    @Column(name = "age")
     private int age;
 
-    public Person(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-    public Person(){
+    @NotEmpty(message = "Email should be not empty")
+    @Email(message = "Email should be valid")
+    @Column(name="email")
+    private String email;
+
+    public Person() {
 
     }
+
+    public Person(String name, int age, String email) {
+        this.name = name;
+        this.age = age;
+        this.email=email;
+    }
+
     public int getId() {
         return id;
     }
@@ -50,5 +57,23 @@ public class Person {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
