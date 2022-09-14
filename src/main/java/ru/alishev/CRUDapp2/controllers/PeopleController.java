@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.alishev.CRUDapp2.models.Person;
+import ru.alishev.CRUDapp2.services.ItemsService;
 import ru.alishev.CRUDapp2.services.PeopleService;
 
 import javax.validation.Valid;
@@ -14,15 +15,23 @@ import javax.validation.Valid;
 @RequestMapping("/people")
 public class PeopleController {
     private final PeopleService peopleService;
+    private final ItemsService itemsService;
 
     @Autowired
-    public PeopleController(PeopleService peopleService) {
+    public PeopleController(PeopleService peopleService, ItemsService itemsService) {
         this.peopleService = peopleService;
+        this.itemsService = itemsService;
     }
 
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("people", peopleService.findAll());
+
+        itemsService.findByItemName("Airpods");
+        itemsService.findByOwner(peopleService.findAll().get(0));
+
+        peopleService.test();
+
         return "people/index";
     }
 

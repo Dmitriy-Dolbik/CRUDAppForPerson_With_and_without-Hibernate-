@@ -2,6 +2,7 @@ package ru.alishev.CRUDapp2.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 
 @Entity
 @Table(name="person")
@@ -24,6 +25,9 @@ public class Person {
     @Email(message = "Email should be valid")
     @Column(name="email")
     private String email;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST)
+    private List<Item> items;
 
     public Person() {
 
@@ -65,6 +69,14 @@ public class Person {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     @Override
