@@ -1,7 +1,11 @@
 package ru.alishev.CRUDapp2.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -28,6 +32,17 @@ public class Person {
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST)
     private List<Item> items;
+
+    @Column(name="date_of_birth")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date dateOfBirth;
+    //private Calendar dateOfBirth;
+
+    @Column(name="created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+    //private Calendar createdAt;
 
     public Person() {
 
@@ -77,6 +92,22 @@ public class Person {
 
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override

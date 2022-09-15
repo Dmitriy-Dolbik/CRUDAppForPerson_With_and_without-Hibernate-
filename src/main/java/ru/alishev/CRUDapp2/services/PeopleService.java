@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.alishev.CRUDapp2.models.Person;
 import ru.alishev.CRUDapp2.repositories.PeopleRepository;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +29,8 @@ public class PeopleService {
     }
     @Transactional
     public void save(Person person){
+        person.setCreatedAt(new Date());
+        //person.setCreatedAt(Calendar.getInstance());
         peopleRepository.save(person);
     }
     @Transactional

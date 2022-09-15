@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.alishev.CRUDapp2.models.Person;
 import ru.alishev.CRUDapp2.services.ItemsService;
 import ru.alishev.CRUDapp2.services.PeopleService;
+import ru.alishev.CRUDapp2.util.PersonValidator;
 
 import javax.validation.Valid;
 
@@ -16,22 +17,18 @@ import javax.validation.Valid;
 public class PeopleController {
     private final PeopleService peopleService;
     private final ItemsService itemsService;
+    private final PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(PeopleService peopleService, ItemsService itemsService) {
+    public PeopleController(PeopleService peopleService, ItemsService itemsService, PersonValidator personValidator) {
         this.peopleService = peopleService;
         this.itemsService = itemsService;
+        this.personValidator = personValidator;
     }
 
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("people", peopleService.findAll());
-
-        itemsService.findByItemName("Airpods");
-        itemsService.findByOwner(peopleService.findAll().get(0));
-
-        peopleService.test();
-
         return "people/index";
     }
 
@@ -49,6 +46,7 @@ public class PeopleController {
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult) {
+        /*personValidator.validate(person, bindingResult);*/
         if (bindingResult.hasErrors())
             return "people/new";
         peopleService.save(person);
@@ -64,6 +62,7 @@ public class PeopleController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
                          @PathVariable("id") int id) {
+        /*personValidator.validate(person, bindingResult);*/
         if (bindingResult.hasErrors())
             return "people/edit";
 
